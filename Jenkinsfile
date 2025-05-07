@@ -106,6 +106,9 @@ pipeline {
             steps {
                 sh 'env | sort'
                 script {
+
+                    env.MAVEN_HOME = '/usr/share/maven'
+
                     def snapshot = 'spring-petclinic-rest-snapshot'
                     def release = 'spring-petclinic-rest-release'
 
