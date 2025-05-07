@@ -105,6 +105,17 @@ pipeline {
         stage('Artifactory') {
             steps {
                 sh 'env | sort'
+                script {
+                    def snapshot = 'spring-petclinic-rest-snapshot'
+                    def release = 'spring-petclinic-rest-release'
+
+                    def server = Artifactory.server 'artifactory'
+                    def rtMaven = Artifactory.newMavenBuild()
+                    rtMaven.deployer server: server, snapshotRepo: snapshot, releaseRepo: release
+                    def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install -DskipTests -B -ntp'
+
+                    server.publishBuildInfo buildInfo
+                }
             }
         }        
     }
