@@ -122,7 +122,7 @@ pipeline {
                     // Forma 2: FileSpec
                     def server = Artifactory.server 'artifactory'
                     def targetRepo = 'spring-petclinic-rest-release'
-                    
+
                     def pom = readMavenPom file: 'pom.xml'
                     println pom.groupId
                     def groupIdPath = pom.groupId.replaceAll("\\.", "/")
