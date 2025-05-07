@@ -153,7 +153,7 @@ pipeline {
                     nexusPublisher nexusInstanceId: 'nexus',
                     nexusRepositoryId: 'spring-petclinic-rest-release',
                     packages: [[$class: 'MavenPackage',
-                    mavenAssetList: [[classifier: '', extension: '', filePath: "target/${pom.artifactId}-${pom.version}.jar"]],
+                    mavenAssetList: [[classifier: '', extension: '', filePath: "target/${pom.artifactId}-${pom.version}.${pom.packaging}"]],
                     mavenCoordinate: [
                     groupId: "${pom.groupId}",
                     artifactId: "${pom.artifactId}",
