@@ -28,6 +28,8 @@ pipeline {
 
                     // Forma 2: Usando buildx
 
+                    def pom = readMavenPom file: 'pom.xml'
+
                     sh 'docker run --privileged --rm tonistiigi/binfmt --install all'
                     sh 'docker buildx create --use'
                     sh 'docker buildx inspect --bootstrap'
