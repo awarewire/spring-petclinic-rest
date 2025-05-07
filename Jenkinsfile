@@ -106,18 +106,36 @@ pipeline {
             steps {
                 script {
                     // Forma 1: Usando rtMaven
-                    sh 'env | sort'
-                    env.MAVEN_HOME = '/usr/share/maven'
+                    // sh 'env | sort'
+                    // env.MAVEN_HOME = '/usr/share/maven'
 
-                    def snapshot = 'spring-petclinic-rest-snapshot'
-                    def release = 'spring-petclinic-rest-release'
+                    // def snapshot = 'spring-petclinic-rest-snapshot'
+                    // def release = 'spring-petclinic-rest-release'
 
+                    // def server = Artifactory.server 'artifactory'
+                    // def rtMaven = Artifactory.newMavenBuild()
+                    // rtMaven.deployer server: server, snapshotRepo: snapshot, releaseRepo: release
+                    // def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install -DskipTests -B -ntp'
+
+                    // server.publishBuildInfo buildInfo
+
+                    // Forma 2: FileSpec
                     def server = Artifactory.server 'artifactory'
-                    def rtMaven = Artifactory.newMavenBuild()
-                    rtMaven.deployer server: server, snapshotRepo: snapshot, releaseRepo: release
-                    def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install -DskipTests -B -ntp'
-
-                    server.publishBuildInfo buildInfo
+                    def targetRepo = 'spring-petclinic-rest-release'
+                    def pom = readMavenPom file: 'pom.xml'
+                    def uploadSpec = """
+                        {
+                            "files": [
+                                {
+                                    "pattern": "target/.*.jar",
+                                    "target": "${targetRepo}/${pom.groupId}/${pom.artifactId}/${pom.version}/",
+                                    "regexp": "true",
+                                    "props": "build.url=${RUN_DISPLAY_URL};build.user=${USER}"
+                                }
+                            ]
+                        }
+                    """
+                    server.upload spec: uploadSpec
                 }
             }
         }        
