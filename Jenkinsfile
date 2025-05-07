@@ -104,10 +104,9 @@ pipeline {
         // }
         stage('Artifactory') {
             steps {
-                // Forma 1: Usando rtMaven
-                sh 'env | sort'
                 script {
-
+                    // Forma 1: Usando rtMaven
+                    sh 'env | sort'
                     env.MAVEN_HOME = '/usr/share/maven'
 
                     def snapshot = 'spring-petclinic-rest-snapshot'
