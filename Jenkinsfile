@@ -133,7 +133,7 @@ pipeline {
                             "files": [
                                 {
                                     "pattern": "target/.*.jar",
-                                    "target": "${targetRepo}/${groupIdPath}.${pom.artifactId}.${pom.version}/",
+                                    "target": "${targetRepo}/${groupIdPath}/${pom.artifactId}/${pom.version}/",
                                     "regexp": "true",
                                     "props": "build.url=${RUN_DISPLAY_URL};build.user=${USER}"
                                 }
