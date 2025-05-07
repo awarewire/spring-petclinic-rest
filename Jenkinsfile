@@ -122,13 +122,18 @@ pipeline {
                     // Forma 2: FileSpec
                     def server = Artifactory.server 'artifactory'
                     def targetRepo = 'spring-petclinic-rest-release'
+                    
                     def pom = readMavenPom file: 'pom.xml'
+                    println pom.groupId
+                    def groupIdPath = pom.groupId.replaceAll("\\.", "/")
+                    println groupIdPath
+
                     def uploadSpec = """
                         {
                             "files": [
                                 {
                                     "pattern": "target/.*.jar",
-                                    "target": "${targetRepo}/${pom.groupId}/${pom.artifactId}/${pom.version}/",
+                                    "target": "${targetRepo}/${groupIdPath}.${pom.artifactId}.${pom.version}/",
                                     "regexp": "true",
                                     "props": "build.url=${RUN_DISPLAY_URL};build.user=${USER}"
                                 }
