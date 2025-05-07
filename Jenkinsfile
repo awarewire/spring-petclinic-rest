@@ -104,6 +104,7 @@ pipeline {
         // }
         stage('Artifactory') {
             steps {
+                // Forma 1: Usando rtMaven
                 sh 'env | sort'
                 script {
 
